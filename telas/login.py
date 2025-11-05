@@ -15,26 +15,21 @@ class TelaLogin(ctk.CTk):
         self.url_normal = "https://datse.com.br/dev/syncjava.php"
         self.url_seguro = "https://datse.com.br/dev/syncjava2.php"
 
-        # Container principal
         self.frame = ctk.CTkFrame(self, corner_radius=20)
         self.frame.pack(padx=20, pady=20, fill="both", expand=True)
 
         ctk.CTkLabel(self.frame, text="Acesso ao Sistema", font=("Arial", 18, "bold")).pack(pady=10)
 
-        # Usuário
         ctk.CTkLabel(self.frame, text="Usuário:").pack(anchor="w", padx=40)
         self.entry_login = ctk.CTkEntry(self.frame, width=250)
         self.entry_login.pack(pady=5)
 
-        # Senha
         ctk.CTkLabel(self.frame, text="Senha:").pack(anchor="w", padx=40)
         self.entry_senha = ctk.CTkEntry(self.frame, width=250, show="*")
         self.entry_senha.pack(pady=5)
 
-        # Botões
         ctk.CTkButton(self.frame, text="Logar", width=200, command=self.login_simples).pack(pady=10)
         ctk.CTkButton(self.frame, text="Logar Criptografado", width=200, command=self.login_seguro).pack(pady=5)
-        ctk.CTkButton(self.frame, text="Fechar", width=200, fg_color="#c0392b", hover_color="#922b21", command=self.destroy).pack(pady=15)
 
     def abrir_tela_principal(self):
         self.withdraw()
@@ -51,17 +46,13 @@ class TelaLogin(ctk.CTk):
         dados = {"usuario": usuario, "senha": senha}
         status, resposta = enviar(self.url_normal, dados)
 
-        # --- MUDANÇA ---
-        # A mensagem agora é formatada ANTES da verificação
+       
         mensagem_api = f"Status Code: {status}\n\nResposta: {resposta}"
 
         if "sucesso" in resposta.lower():
-            # Mostra o alert de SUCESSO
             messagebox.showinfo("Sucesso - API Simples", mensagem_api)
-            # Abre a tela principal
             self.abrir_tela_principal()
         else:
-            # Mostra o alert de ERRO
             messagebox.showerror("Erro - API Simples", mensagem_api)
 
     def login_seguro(self):
@@ -77,15 +68,11 @@ class TelaLogin(ctk.CTk):
         dados = {"usuario": usuario, "senha": senha_cript}
         status, resposta = enviar(self.url_seguro, dados)
 
-        # --- MUDANÇA ---
-        # A mensagem agora é formatada ANTES da verificação
+      
         mensagem_api = f"Status Code: {status}\n\nResposta: {resposta}"
 
         if "sucesso" in resposta.lower():
-            # Mostra o alert de SUCESSO
             messagebox.showinfo("Sucesso - API Segura (AES)", mensagem_api)
-            # Abre a tela principal
             self.abrir_tela_principal()
         else:
-            # Mostra o alert de ERRO
             messagebox.showerror("Erro - API Segura (AES)", mensagem_api)
